@@ -13,7 +13,7 @@ const mono = JetBrains_Mono({ variable: "--font-mono", subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Swathi Mohan",
   description:
-    "Research Fellow at Microsoft Research working on formal methods, specification-driven testing, and software reliability.",
+    "Engineer on the FoSSE team at Microsoft CoreAI, previously a Research Fellow at Microsoft Research, working on formal methods, specification-driven testing, and software reliability.",
 };
 
 export default function RootLayout({

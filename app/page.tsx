@@ -152,7 +152,7 @@ export default function Home() {
           <div>
             <div className="eyebrow">Software correctness &amp; reliability</div>
             <h1 id="name">Swathi Mohan</h1>
-            <p className="role">Research Fellow, Microsoft Research</p>
+            <p className="role">Engineer, FoSSE team, Microsoft CoreAI · previously Research Fellow, Microsoft Research</p>
             <p className="intro-copy">
               I work on testing and verification tools for software that is{" "}
               <span className="pencil-mark">
@@ -175,7 +175,7 @@ export default function Home() {
             </div>
           </div>
           <figure>
-            <Image className="portrait" src="/photo.jpg" alt="Swathi Mohan" width={170} height={206} priority />
+            <Image className="portrait" src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/photo.jpg`} alt="Swathi Mohan" width={170} height={206} priority />
             <div className="margin-note hand" aria-hidden="true">
               <svg viewBox="0 0 26 24">
                 <path d="M22 22 Q6 20 7 3 M2 9 L7 2 L12 8" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
@@ -220,7 +220,16 @@ export default function Home() {
         <section className="bottom-grid" id="background" aria-label="Background">
           <div>
             <h2>Experience</h2>
-            <div className="record"><strong>Microsoft Research</strong><span>Research Fellow · 2024–present</span></div>
+            <div className="record">
+              <strong>Microsoft CoreAI, FoSSE team</strong>
+              <span>Engineer · Jul 2026–present</span>
+              <span>With Akash Lal, Aseem Rastogi, and Sriram Rajamani</span>
+            </div>
+            <div className="record">
+              <strong>Microsoft Research India, FoSSE team</strong>
+              <span>Research Fellow · Jul 2024–Jun 2026</span>
+              <span>Advised by Pritam Gharat, Akash Lal, and Aseem Rastogi</span>
+            </div>
             <div className="record"><strong>FischerJordan</strong><span>Machine learning intern · 2023–2024</span></div>
             <div className="record"><strong>SAP Labs</strong><span>Software engineering intern · 2023</span></div>
           </div>
@@ -231,7 +240,7 @@ export default function Home() {
               <span>B.Tech, Computer Science &amp; Engineering · Minor in Data Science</span>
               <span>2020–2024 · CGPA 9.26</span>
             </div>
-            <div className="record"><strong>Teaching assistant</strong><span>Data Structures &amp; Algorithms · Compiler Design</span></div>
+            <div className="record"><strong>Teaching assistant</strong><span>Object-Oriented Programming · Digital System Design</span></div>
           </div>
         </section>
       </main>

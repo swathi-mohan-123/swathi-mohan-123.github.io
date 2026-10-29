@@ -31,7 +31,8 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; 
 a:hover { color: var(--accent); }
 button { font: inherit; cursor: pointer; }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
-h1, h2, h3, p, figure { margin-top: 0; }
+h1, h2, h3, p { margin-top: 0; }
+figure { margin: 0; }
 
 .shell { max-width: 1080px; margin: auto; padding: 0 54px; }
 
