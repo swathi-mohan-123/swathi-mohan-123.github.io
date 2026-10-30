@@ -73,11 +73,13 @@ function RustSketch() {
       idle="Compiles. Looks harmless."
       active="A hidden panic. Propagate the error instead, then rebuild and retest."
     >
-      <pre className="sketch-code" aria-label="Rust code: let config = load(path).unwrap(). Checking it replaces unwrap with a question mark, then the build and tests pass.">
+      <pre className="sketch-code" aria-label="Before: let config = load(path).unwrap(); After checking: let config = load(path)?; which propagates the error, then the build and tests pass.">
         <code>
-          let config = load(path)<span className="flag">.unwrap()</span>
-          <span className="fix on-only">?</span>;
-          <span className="hand ticks on-only">build ✓  tests ✓</span>
+          <span className="line flag">{"let config = load(path).unwrap();"}</span>
+          <span className="line on-only">
+            {"let config = load(path)?;"}
+            <span className="hand ticks">build ✓  tests ✓</span>
+          </span>
         </code>
       </pre>
     </Sketch>
@@ -108,12 +110,48 @@ function OwnershipSketch() {
   );
 }
 
+function ReductionSketch() {
+  const groups: [number, number, number, [number, number][]][] = [
+    [80, 50, 62, [[45, 36], [70, 68], [92, 30], [112, 60]]],
+    [220, 50, 58, [[188, 62], [210, 30], [236, 70], [252, 40]]],
+    [355, 50, 50, [[328, 40], [352, 70], [380, 46]]],
+  ];
+  return (
+    <Sketch
+      label="so many interleavings…"
+      action="Reduce"
+      idle="Every order the threads could run in. Far too many to test one by one."
+      active="Merge the ones the property can’t tell apart, then test one schedule per group."
+    >
+      <svg viewBox="0 0 440 104" role="img" aria-label="Eleven scattered program states. Reducing groups them into three classes that the property under test cannot distinguish.">
+        {groups.map(([cx, cy, rx, dots], g) => (
+          <g key={cx}>
+            {dots.map(([x, y]) => (
+              <circle key={`${x}-${y}`} className="node visited" cx={x} cy={y} r="6" />
+            ))}
+            <ellipse className="dashed on-only" cx={cx} cy={cy} rx={rx} ry="36" />
+            <text className="hand-text on-only" x={cx} y="101" textAnchor="middle">
+              {["group A", "group B", "group C"][g]}
+            </text>
+          </g>
+        ))}
+      </svg>
+    </Sketch>
+  );
+}
+
 const research = [
   {
     title: "Testing what happens when systems fail",
     body: "Generating fault-injection tests from TLA+ specifications, with a focus on recovery behavior. Specifications are a good source of “rainy-day” tests: they tell you which failures can happen, and when. I drive real components into those faults and check that they recover.",
     tags: ["Fault tolerance", "Spec-driven testing"],
     sketch: <FaultSketch />,
+  },
+  {
+    title: "Which interleavings are worth testing?",
+    body: "Concurrent systems can run in more orders than any test suite could try. I designed a property-preserving reduction of the model’s state graph: states the property cannot tell apart are merged, fault situations are kept distinct, and the remaining graph is covered with a small set of test schedules replayed on real code.",
+    tags: ["Concurrency", "State-space reduction"],
+    sketch: <ReductionSketch />,
   },
   {
     title: "Coverage beyond lines of code",
@@ -123,7 +161,7 @@ const research = [
   },
   {
     title: "Checking and repairing Rust code",
-    body: "Large Rust codebases have dozens of engineering guidelines and no scalable way to enforce them. I built SymFix’s Rust checker: static analysis finds candidate violations, an agent separates real ones from false alarms and proposes fixes, and every fix must build and pass tests. Fixes from it have been merged into Microsoft production code.",
+    body: "Large Rust codebases have dozens of engineering guidelines and no scalable way to enforce them. I built a neuro-symbolic Rust checker: static analysis finds candidate violations, LLM agents grounded in compiler facts separate real ones from false alarms and propose fixes, and every fix must build and pass tests. Its fixes have been merged into Microsoft production code.",
     tags: ["Program analysis", "Automated repair"],
     sketch: <RustSketch />,
   },
@@ -143,6 +181,7 @@ export default function Home() {
         <div className="nav-links">
           <a href="#research">Research</a>
           <a href="#background">Background</a>
+          <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/Swathi_Mohan_CV.pdf`}>CV</a>
           <a href={GITHUB_URL}>GitHub</a>
         </div>
       </nav>
@@ -169,8 +208,9 @@ export default function Home() {
               repair and C-to-Rust translation.
             </p>
             <div className="text-links">
-              <a href="#research">Selected research ↓</a>
-              <a href={`mailto:${EMAIL}`}>Email</a>
+              <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/Swathi_Mohan_CV.pdf`}>CV (PDF)</a>
+              <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+              <a href={GITHUB_URL}>GitHub ↗</a>
               <a href={LINKEDIN_URL}>LinkedIn ↗</a>
             </div>
           </div>
